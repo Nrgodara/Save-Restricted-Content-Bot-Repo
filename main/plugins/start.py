@@ -4,7 +4,7 @@ from telethon import events, Button
 from telethon.tl.types import InputMediaPhoto
 
 S = "/start"
-START_PIC = "https://graph.org/file/da97ceca70e55983b4891.png"
+START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
 TEXT = "Send me the Link of any message of Restricted Channels to Clone it here.\nFor private channel's messages, send the Invite Link first.\n\n👉🏻Execute /batch for bulk process upto 10K files range."
 
 def is_set_button(data):
@@ -52,7 +52,7 @@ async def start_command(event):
     buttons = [
         [Button.inline("SET THUMB", data="set"),
          Button.inline("REM THUMB", data="rem")],
-        [Button.url("Join Channel", url="https://telegram.dog/dev_gagan")]
+        [Button.url("Developer ❤️‍🔥", url="https://telegram.dog/mr_mahiji")]
     ]
 
     # Sending photo with caption and buttons
