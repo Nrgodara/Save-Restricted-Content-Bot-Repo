@@ -1,4 +1,4 @@
-# Jimport asyncio, time, os
+import asyncio, time, os
 from pyrogram.enums import ParseMode, MessageMediaType
 from pyrogram.errors import FloodWait
 from .. import Bot, bot
