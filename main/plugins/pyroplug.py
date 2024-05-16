@@ -1,22 +1,16 @@
-# Join t.me/dev_gagan
-
-import asyncio, time, os
-
-from pyrogram.enums import ParseMode , MessageMediaType
-
+# Jimport asyncio, time, os
+from pyrogram.enums import ParseMode, MessageMediaType
+from pyrogram.errors import FloodWait
 from .. import Bot, bot
 from main.plugins.progress import progress_for_pyrogram
 from main.plugins.helpers import screenshot
-
 from pyrogram import Client, filters
-from pyrogram.errors import ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid, FloodWait
-#from ethon.pyfunc import video_metadata
+from pyrogram.errors import ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid
 from main.plugins.helpers import video_metadata
 from telethon import events
-
 import logging
 
-logging.basicConfig(level=logging.debug,
+logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.INFO)
@@ -28,7 +22,6 @@ def thumbnail(sender):
     return f'{sender}.jpg' if os.path.exists(f'{sender}.jpg') else f'thumb.jpg'
 
 async def copy_message_with_chat_id(client, sender, chat_id, message_id):
-    # Get the user's set chat ID, if available; otherwise, use the original sender ID
     target_chat_id = user_chat_ids.get(sender, sender)
     try:
         await client.copy_message(target_chat_id, chat_id, message_id)
@@ -38,10 +31,12 @@ async def copy_message_with_chat_id(client, sender, chat_id, message_id):
         await client.send_message(sender, f"Make Bot admin in your Channel - {target_chat_id} and restart the process after /cancel")
 
 async def send_message_with_chat_id(client, sender, message, parse_mode=None):
-    # Get the user's set chat ID, if available; otherwise, use the original sender ID
     chat_id = user_chat_ids.get(sender, sender)
     try:
         await client.send_message(chat_id, message, parse_mode=parse_mode)
+    except FloodWait as e:
+        await asyncio.sleep(e.value)
+        await send_message_with_chat_id(client, sender, message, parse_mode)
     except Exception as e:
         error_message = f"Error occurred while sending message to chat ID {chat_id}: {str(e)}"
         await client.send_message(sender, error_message)
@@ -49,17 +44,14 @@ async def send_message_with_chat_id(client, sender, message, parse_mode=None):
   
 @bot.on(events.NewMessage(incoming=True, pattern='/setchat'))
 async def set_chat_id(event):
-    # Extract chat ID from the message
     try:
         chat_id = int(event.raw_text.split(" ", 1)[1])
-        # Store user's chat ID
         user_chat_ids[event.sender_id] = chat_id
         await event.reply("Chat ID set successfully!")
     except ValueError:
         await event.reply("Invalid chat ID!")
       
 async def send_video_with_chat_id(client, sender, path, caption, duration, hi, wi, thumb_path, upm):
-    # Get the user's set chat ID, if available; otherwise, use the original sender ID
     chat_id = user_chat_ids.get(sender, sender)
     try:
         await client.send_video(
@@ -79,6 +71,9 @@ async def send_video_with_chat_id(client, sender, path, caption, duration, hi, w
                 time.time()
             )
         )
+    except FloodWait as e:
+        await asyncio.sleep(e.value)
+        await send_video_with_chat_id(client, sender, path, caption, duration, hi, wi, thumb_path, upm)
     except Exception as e:
         error_message = f"Error occurred while sending video to chat ID {chat_id}: {str(e)}"
         await client.send_message(sender, error_message)
@@ -86,7 +81,6 @@ async def send_video_with_chat_id(client, sender, path, caption, duration, hi, w
 
 
 async def send_document_with_chat_id(client, sender, path, caption, thumb_path, upm):
-    # Get the user's set chat ID, if available; otherwise, use the original sender ID
     chat_id = user_chat_ids.get(sender, sender)
     try:
         await client.send_document(
@@ -102,10 +96,16 @@ async def send_document_with_chat_id(client, sender, path, caption, thumb_path, 
                 time.time()
             )
         )
+    except FloodWait as e:
+        await asyncio.sleep(e.value)
+        await send_document_with_chat_id(client, sender, path, caption, thumb_path, upm)
     except Exception as e:
         error_message = f"Error occurred while sending document to chat ID {chat_id}: {str(e)}"
         await client.send_message(sender, error_message)
         await client.send_message(sender, f"Make Bot admin in your Channel - {chat_id} and restart the process after /cancel")
+
+# Rest of your code remains unchanged
+
 
 async def check(userbot, client, link):
     logging.info(link)
