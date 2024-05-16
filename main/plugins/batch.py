@@ -32,7 +32,7 @@ cancel_flag = {}
     await event.client.send_message(event.chat_id, msg) 
 '''
 
-@gagan.on(events.NewMessage(incoming=True, pattern='/batch') & filters.user(AUTH))
+@gagan.on(events.NewMessage(incoming=True, pattern='/batch'))
 async def _batch(event):
     s = False
     if f'{event.sender_id}' in batch:
