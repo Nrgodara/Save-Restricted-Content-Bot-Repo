@@ -4,7 +4,7 @@ import logging
 import time, os, asyncio
 import json
 
-from .. import bot as gagan
+from .. import bot as mahi
 from .. import userbot, Bot, AUTH, SUDO_USERS
 
 from main.plugins.pyroplug import check, get_bulk_msg
@@ -13,7 +13,7 @@ from main.plugins.helpers import get_link, screenshot
 from telethon import events, Button, errors
 from telethon.tl.types import DocumentAttributeVideo
 
-from pyrogram import Client 
+from pyrogram import Client, filters 
 from pyrogram.errors import FloodWait
 
 logging.basicConfig(level=logging.DEBUG,
@@ -31,12 +31,12 @@ ids = []
     await event.client.send_message(event.chat_id, msg) 
 '''
 
-@gagan.on(events.NewMessage(incoming=True, pattern='/batch'))
+@mahi.on(events.NewMessage(incoming=True, pattern='/batch'))
 async def _batch(event):
     s = False
     if f'{event.sender_id}' in batch:
         return await event.reply("You've already started one batch, wait for it to complete you dumbfuck owner!")
-    async with gagan.conversation(event.chat_id) as conv: 
+    async with mahi.conversation(event.chat_id) as conv: 
         if not s:
             await conv.send_message(f"Send me the message link you want to start saving from, as a reply to this message.", buttons=Button.force_reply())
             try:
@@ -82,7 +82,7 @@ async def _batch(event):
             ids.clear()
             batch.clear()
 
-@gagan.on(events.callbackquery.CallbackQuery(data="cancel"))
+@mahi.on(events.callbackquery.CallbackQuery(data="cancel"))
 async def cancel(event):
     ids.clear()
     batch.clear()
@@ -156,11 +156,21 @@ async def run_batch(userbot, client, sender, countdown, link):
         if n == len(ids):
             return -2
 
+
+@mahi.on_message(filters.command("stop") & filters.user(ADMINS))
+async def restart_handler(_, m):
+    await m.reply_text("**Stopped**⚠️", True)
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+
+
+
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
 TEXT = "👋 Hi, This is 'Paid Restricted Content Saver' bot Made with ❤️ by __**MAHI Botz**__."
 
-@gagan.on(events.NewMessage(pattern=f"^{C}"))
+@mahi.on(events.NewMessage(pattern=f"^{C}"))
 async def start_command(event):
     # Creating inline keyboard with buttons
     buttons = [
