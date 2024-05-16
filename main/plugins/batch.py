@@ -31,11 +31,11 @@ ids = []
     await event.client.send_message(event.chat_id, msg) 
 '''
 
-@gagan.on(events.NewMessage(incoming=True, pattern='/batch'))
+@gagan.on(events.NewMessage(incoming=True, pattern='/batch')& filters.user(AUTH))
 async def _batch(event):
     s = False
     if f'{event.sender_id}' in batch:
-        return await event.reply("You've already started one batch, wait for it to complete you dumbfuck owner!")
+        return await event.reply("You've already started one batch, wait for it to complete!")
     async with gagan.conversation(event.chat_id) as conv: 
         if not s:
             await conv.send_message(f"Send me the message link you want to start saving from, as a reply to this message.", buttons=Button.force_reply())
@@ -109,7 +109,7 @@ async def run_batch(userbot, client, sender, countdown, link):
         if 't.me/c/' not in link:
             timer = 1 if i < 500 else 2
         try: 
-            count_down = f"**Batch process ongoing.**\n\nProcess completed: {i+1}"
+            count_down = f"**⚡Batch process ongoing⚡**\n\n**🍁Process completed:** `{i+1}`"
             #a =ids[i]
             try:
                 msg_id = int(link.split("/")[-1])
@@ -120,17 +120,17 @@ async def run_batch(userbot, client, sender, countdown, link):
                 msg_id = int(link_.split("/")[-1])
             integer = msg_id + int(ids[i])
             await get_bulk_msg(userbot, client, sender, link, integer)
-            protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and Protect account!")
+            #protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and Protect account!")
             await countdown.edit(count_down, 
                                  buttons=[[Button.url("Join Channel", url="https://t.me/mahi_batches")]])
             await asyncio.sleep(timer)
-            await protection.delete()
+            #await protection.delete()
         except IndexError as ie:
-            await client.send_message(sender, f" {i}  {ie}  \n\nBatch ended completed!")
+            await client.send_message(sender, f" {i}  {ie}  \n\n💚**Batch completed!**💚")
             await countdown.delete()
             break
         except FloodWait as fw:
-            if int(fw.value) > 300:
+            if int(fw.value) > 3000:
                 await client.send_message(sender, f'You have floodwaits of {fw.value} seconds, cancelling batch') 
                 ids.clear()
                 break
@@ -158,15 +158,15 @@ async def run_batch(userbot, client, sender, countdown, link):
 
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
-TEXT = "👋 Hi, This is 'Paid Restricted Content Saver' bot Made with ❤️ by __**MAHI Botz**__."
+TEXT = "👋 Hi, This is `Restricted Content Saver bot` \n\n\nMade with ❤️\nMade by __**MAHI Botz❤️‍🔥🫰**__."
 
 @gagan.on(events.NewMessage(pattern=f"^{C}"))
 async def start_command(event):
     # Creating inline keyboard with buttons
     buttons = [
-        [Button.inline("Cancel", data="cancel"),
-         Button.inline("Cancel", data="cancel")],
-        [Button.url("Join Channel", url="https://telegram.dog/mahi_batches")]
+        [Button.inline("✖️ Cancel ✖️", data="cancel"),
+         Button.inline("❌ Cancel ❌", data="cancel")],
+        [Button.url("💝Join Channel💝", url="https://telegram.dog/mahi_batches")]
     ]
 
     # Sending photo with caption and buttons
