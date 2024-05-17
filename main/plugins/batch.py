@@ -341,11 +341,11 @@ async def run_batch(userbot, client, sender, countdown, link):
         if n == len(ids):
             return -2
 
-@mahi.on_message(filters.command("stop") & filters.user(AUTH))
-async def restart_handler(_, m):
-    await m.reply_text("**Stopped**⚠️", True)
-    os.execl(sys.executable, sys.executable, *sys.argv)
-
+@mahi.on(events.NewMessage(pattern='/stop'))
+async def restart_handler(event):
+    if event.sender_id in AUTH:
+        await event.reply("**Stopped**⚠️", True)
+        os.execl(sys.executable, sys.executable, *sys.argv)
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
 TEXT = "👋 Hi, This is 'Paid Restricted Content Saver' bot Made with ❤️ by __**MAHI Botz**__."
