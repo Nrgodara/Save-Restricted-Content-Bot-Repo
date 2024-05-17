@@ -26,12 +26,12 @@ logging.getLogger("telethon").setLevel(logging.WARNING)
 
 batch = []
 ids = []
-
-
+USE = 1280494242  # Assuming this is your user ID
 
 @mahi.on(events.NewMessage(incoming=True, pattern='/batch'))
 async def _batch(event):
-    if event.sender_id not in AUTH:
+    if event.sender_id != USE:
+        await event.reply("🖕")
         return await event.reply("Who are you MC 😠")
 
     s = False
@@ -168,9 +168,10 @@ async def run_batch(userbot, client, sender, countdown, link):
 
 @mahi.on(events.NewMessage(pattern='/stop'))
 async def restart_handler(event):
-    if event.sender_id in AUTH:
-        await event.reply("**Stopped**⚠️", True)
-        os.execl(sys.executable, sys.executable, *sys.argv)
+    if event.sender_id != USE:
+        await event.reply("🖕")
+    await event.reply("**Stopped**⚠️", True)
+    os.execl(sys.executable, sys.executable, *sys.argv)
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
 TEXT = "👋 Hi, This is 'Paid Restricted Content Saver' bot Made with ❤️ by __**MAHI Botz**__."
