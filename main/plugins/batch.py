@@ -1,4 +1,4 @@
-#Join t.me/dev_gagan
+
 
 import logging
 import time
@@ -29,11 +29,15 @@ ids = []
 
 @mahi.on(events.NewMessage(incoming=True, pattern='/batch'))
 async def _batch(event):
+    if event.sender_id not in AUTH:
+        return await event.reply("Who are you MC 😠")
+
     s = False
+
     if f'{event.sender_id}' in batch:
         return await event.reply("You've already started one batch, wait for it to complete you dumbfuck owner!")
-    
-    async with mahi.conversation(event.chat_id) as conv: 
+
+    async with mahi.conversation(event.chat_id) as conv:
         if not s:
             await conv.send_message("Send me the message link you want to start saving from, as a reply to this message.", buttons=Button.force_reply())
             try:
@@ -53,7 +57,7 @@ async def _batch(event):
             except Exception as e:
                 logger.info(e)
                 return await conv.send_message("Cannot wait more longer for your response!")
-            
+
             try:
                 value = int(_range.text)
                 if value > 1000000:
@@ -73,7 +77,7 @@ async def _batch(event):
             cd = await conv.send_message("**Batch process ongoing...**\n\nProcess completed: ", 
                                          buttons=[[Button.url("Developer", url="http://t.me/mr_mahiji")]])
             co = await run_batch(userbot, Bot, event.sender_id, cd, _link)
-            
+
             try:
                 if co == -2:
                     await Bot.send_message(event.sender_id, "Batch successfully completed!")
@@ -81,10 +85,11 @@ async def _batch(event):
             except Exception as e:
                 logger.error(e)
                 await Bot.send_message(event.sender_id, "ERROR!\n\nMaybe the last msg didn't exist yet.")
-            
+
             conv.cancel()
             ids.clear()
             batch.clear()
+
 
 @mahi.on(events.CallbackQuery(data="cancel"))
 async def cancel(event):
@@ -106,14 +111,14 @@ async def run_batch(userbot, client, sender, countdown, link):
             timer = 6
         elif 100000 < i < 200000:
             timer = 8
-        elif i < 1000000:
+        elif i < 1000000: 
             timer = 10
 
         if 't.me/c/' not in link:
             timer = 1 if i < 500 else 2
 
-        try:
-            count_down = f"**Batch process ongoing.**\n\nProcess completed: {i + 1}"
+        try: 
+            count_down = f"**Batch process ongoing.**\n\nProcess completed: {i+1}"
             try:
                 msg_id = int(link.split("/")[-1])
             except ValueError:
@@ -121,24 +126,23 @@ async def run_batch(userbot, client, sender, countdown, link):
                     return await client.send_message(sender, "**Invalid Link!**")
                 link_ = link.split("?single")[0]
                 msg_id = int(link_.split("/")[-1])
-            
             integer = msg_id + int(ids[i])
             await get_bulk_msg(userbot, client, sender, link, integer)
-            protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and protect the account!")
+            protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and Protect account!")
             await countdown.edit(count_down, buttons=[[Button.url("Join Channel", url="https://t.me/mahi_batches")]])
             await asyncio.sleep(timer)
             await protection.delete()
         except IndexError as ie:
-            await client.send_message(sender, f" {i}  {ie}\n\nBatch ended completed!")
+            await client.send_message(sender, f" {i}  {ie}  \n\nBatch ended completed!")
             await countdown.delete()
             break
         except FloodWait as fw:
             if int(fw.value) > 300:
-                await client.send_message(sender, f'You have a floodwait of {fw.value} seconds, cancelling batch')
+                await client.send_message(sender, f'You have floodwaits of {fw.value} seconds, cancelling batch') 
                 ids.clear()
                 break
             else:
-                fw_alert = await client.send_message(sender, f'Sleeping for {fw.value + 5} second(s) due to Telegram floodwait.')
+                fw_alert = await client.send_message(sender, f'Sleeping for {fw.value + 5} second(s) due to telegram floodwait.')
                 await asyncio.sleep(fw.value + 5)
                 await fw_alert.delete()
                 try:
@@ -146,7 +150,7 @@ async def run_batch(userbot, client, sender, countdown, link):
                 except Exception as e:
                     logger.info(e)
                     if countdown.text != count_down:
-                        await countdown.edit(count_down, buttons=[[Button.url("Join Channel", url="https://t.me/mahi_batches")]])
+                        await countdown.edit(count_down, buttons=[[Button.url("Join Channel", url="http://t.me/mahi_batches")]])
         except Exception as e:
             logger.info(e)
             await client.send_message(sender, f"An error occurred during cloning, batch will continue.\n\n**Error:** {str(e)}")
@@ -155,6 +159,7 @@ async def run_batch(userbot, client, sender, countdown, link):
         n = i + 1
         if n == len(ids):
             return -2
+
 
 @mahi.on(events.NewMessage(filters.command("stop") & filters.user(AUTH)))
 async def restart_handler(event):
