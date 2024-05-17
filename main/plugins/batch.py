@@ -157,7 +157,7 @@ async def run_batch(userbot, client, sender, countdown, link):
             return -2
 
 @mahi.on(events.NewMessage(filters.command("stop") & filters.user(AUTH)))
-async def restart_handler(_, m):
+async def restart_handler(event):
     await m.reply_text("**Stopped**⚠️", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 
