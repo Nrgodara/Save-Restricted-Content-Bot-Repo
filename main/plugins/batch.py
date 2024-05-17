@@ -5,6 +5,8 @@ import time
 import os
 import asyncio
 import json
+import sys
+
 
 from .. import bot as mahi
 from .. import userbot, Bot, AUTH, SUDO_USERS
