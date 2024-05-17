@@ -85,7 +85,7 @@ async def _batch(event):
             try:
                 if co == -2:
                     await Bot.send_message(event.sender_id, "Batch successfully completed!")
-                    await cd.edit(f"**Batch process ongoing.**\n\nProcess completed: {value}\n\nBatch successfully completed!")
+                    await cd.edit(f"**Batch process ongoing.**\n\nProcess completed: `{i + 1}`\n\nBatch successfully completed!")
             except Exception as e:
                 logger.error(e)
                 await Bot.send_message(event.sender_id, "ERROR!\n\nMaybe the last msg didn't exist yet.")
@@ -172,7 +172,7 @@ async def run_batch(userbot, client, sender, countdown, link):
 async def restart_handler(event):
     if event.sender_id != USE:
         return await event.reply("🖕")
-    await event.reply("**Stopped**⚠️")
+    await event.reply("**Stopped**⚠️", True)
     os.execl(sys.executable, sys.executable, *sys.argv)
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
