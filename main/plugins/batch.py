@@ -170,7 +170,7 @@ async def run_batch(userbot, client, sender, countdown, link):
 async def restart_handler(event):
     if event.sender_id != USE:
         return await event.reply("🖕")
-    await event.reply("**Stopped**⚠️", True)
+    await event.reply("**Stopped**⚠️")
     os.execl(sys.executable, sys.executable, *sys.argv)
 C = "/cancel"
 START_PIC = "https://graph.org/file/7af9a8ab33a563cc7e6d4.jpg"
