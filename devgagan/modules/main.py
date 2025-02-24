@@ -72,6 +72,10 @@ async def set_interval(user_id, interval_minutes=45):
     interval_set[user_id] = now + timedelta(seconds=interval_minutes)
     
 
+from pyrogram import filters
+from pyrogram.errors import FloodWait
+import re
+
 @app.on_message(
     filters.regex(r'https?://(?:www\.)?t\.me/[^\s]+|tg://openmessage\?user_id=\w+&message_id=\d+')
     & filters.private
@@ -104,16 +108,23 @@ async def single_link(_, message):
     # Add user to the loop
     users_loop[user_id] = True
 
-    link = message.text if "tg://openmessage" in message.text else get_link(message.text)
+    link = message.text
     msg = await message.reply("Processing...")
     userbot = await initialize_userbot(user_id)
+
     try:
-        if await is_normal_tg_link(link):
-            await process_and_upload_link(userbot, user_id, msg.id, link, 0, message)
-            await set_interval(user_id, interval_minutes=45)
+        if "tg://openmessage" in link:
+            # Handle deep links for DMs
+            await process_dm_deep_link(userbot, user_id, msg, link, message)
         else:
-            await process_special_links(userbot, user_id, msg, link)
-            
+            # Handle normal Telegram links
+            link = get_link(link)  # Extract the link if necessary
+            if await is_normal_tg_link(link):
+                await process_and_upload_link(userbot, user_id, msg.id, link, 0, message)
+                await set_interval(user_id, interval_minutes=45)
+            else:
+                await process_special_links(userbot, user_id, msg, link)
+
     except FloodWait as fw:
         await msg.edit_text(f'Try again after {fw.x} seconds due to floodwait from Telegram.')
     except Exception as e:
@@ -125,6 +136,47 @@ async def single_link(_, message):
         except Exception:
             pass
 
+def parse_deep_link(link: str):
+    """
+    Parse a Telegram deep link of the format:
+    tg://openmessage?user_id=1280494242&message_id=41844
+    """
+    match = re.match(r"tg://openmessage\?user_id=(\d+)&message_id=(\d+)", link)
+    if match:
+        return int(match.group(1)), int(match.group(2))
+    return None, None
+
+
+async def process_dm_deep_link(userbot, user_id, msg, link, message):
+    """
+    Process a tg://openmessage deep link and download media from DMs.
+    """
+    # Parse the deep link
+    user_id_dm, message_id = parse_deep_link(link)
+    if not user_id_dm or not message_id:
+        await msg.edit_text("❌ Invalid deep link. Please send a valid `tg://openmessage` link.")
+        return
+
+    # Fetch the message
+    try:
+        dm_message = await userbot.get_messages(user_id_dm, message_id)
+        if not dm_message or not dm_message.media:
+            await msg.edit_text("❌ No media found in the message.")
+            return
+
+        # Download the media
+        file_path = await dm_message.download_media()
+        await msg.edit_text("✅ Media downloaded successfully!")
+
+        # Send the downloaded media to the user
+        await message.reply_document(file_path, caption="Here's your downloaded media!")
+
+        # Clean up
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+    except Exception as e:
+        await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
 
 async def initialize_userbot(user_id): # this ensure the single startup .. even if logged in or not
     data = await db.get_data(user_id)
