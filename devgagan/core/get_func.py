@@ -84,8 +84,8 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
         width, height, duration = metadata['width'], metadata['height'], metadata['duration']
         try:
             thumb_path = await screenshot(file, duration, sender)
-        except Exception:
-            thumb_path = None
+        except Exception as e:
+            print(f"Error generating thumbnail: {e}")
 
         video_formats = {'mp4', 'mkv', 'avi', 'mov'}
         document_formats = {'pdf', 'docx', 'txt', 'epub'}
@@ -105,7 +105,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
                     reply_to_message_id=topic_id,
                     parse_mode=ParseMode.MARKDOWN,
                     progress=progress_bar,
-                    progress_args=("╭─────────────────────╮\n│      **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
+                    progress_args=("╭─────────────────────╮\n│        **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
                 )
                 await dm.copy(LOG_GROUP)
                 
@@ -117,7 +117,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
                     parse_mode=ParseMode.MARKDOWN,
                     progress=progress_bar,
                     reply_to_message_id=topic_id,
-                    progress_args=("╭─────────────────────╮\n│      **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
+                    progress_args=("╭─────────────────────╮\n│        **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
                 )
                 await dm.copy(LOG_GROUP)
             else:
@@ -129,7 +129,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
                     reply_to_message_id=topic_id,
                     progress=progress_bar,
                     parse_mode=ParseMode.MARKDOWN,
-                    progress_args=("╭─────────────────────╮\n│      **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
+                    progress_args=("╭─────────────────────╮\n│        **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
                 )
                 await asyncio.sleep(2)
                 await dm.copy(LOG_GROUP)
@@ -204,7 +204,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
             if chat in saved_channel_ids:
                 await app.edit_message_text(
                     message.chat.id, edit_id,
-                    "Sorry! This channel is protected by **__Team SPY__**."
+                    "Sorry! This channel is protected by **__MAHI BOTz__**."
                 )
                 return
             
