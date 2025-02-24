@@ -39,9 +39,9 @@ async def set(_, message):
         BotCommand("adl", "👻 Download audio from 30+ sites"),
         BotCommand("dl", "💀 Download videos from 30+ sites"),
         BotCommand("freez", "🧊 Remove all expired user"),
-        BotCommand("pay", "₹ Pay now to get subscription"),
-        BotCommand("status", "⟳ Refresh Payment status"),
-        BotCommand("transfer", "💘 Gift premium to others"),
+        #BotCommand("pay", "₹ Pay now to get subscription"),
+       # BotCommand("status", "⟳ Refresh Payment status"),
+       # BotCommand("transfer", "💘 Gift premium to others"),
         BotCommand("myplan", "⌛ Get your plan details"),
         BotCommand("add", "➕ Add user to premium"),
         BotCommand("rem", "➖ Remove from premium"),
@@ -49,7 +49,7 @@ async def set(_, message):
         BotCommand("settings", "⚙️ Personalize things"),
         BotCommand("stats", "📊 Get stats of the bot"),
         BotCommand("plan", "🗓️ Check our premium plans"),
-        BotCommand("terms", "🥺 Terms and conditions"),
+     #   BotCommand("terms", "🥺 Terms and conditions"),
         BotCommand("speedtest", "🚅 Speed of server"),
         BotCommand("lock", "🔒 Protect channel from extraction"),
         BotCommand("gcast", "⚡ Broadcast message to bot users"),
@@ -109,7 +109,6 @@ help_pages = [
         "> 4. REPLACEWORDS : Can be used for words in deleted set via REMOVE WORDS\n"
         "> 5. RESET : To set the things back to default\n\n"
         "> You can set CUSTOM THUMBNAIL, PDF WATERMARK, VIDEO WATERMARK, SESSION-based login, etc. from settings\n\n"
-        "**__Powered by Team SPY__**"
     )
 ]
  
@@ -183,7 +182,7 @@ async def terms(client, message):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📋 See Plans", callback_data="see_plan")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/kingofpatal")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
         ]
     )
     await message.reply_text(terms_text, reply_markup=buttons)
@@ -202,7 +201,7 @@ async def plan(client, message):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📜 See Terms", callback_data="see_terms")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/kingofpatal")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
         ]
     )
     await message.reply_text(plan_text, reply_markup=buttons)
@@ -221,7 +220,7 @@ async def see_plan(client, callback_query):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📜 See Terms", callback_data="see_terms")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/kingofpatal")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
         ]
     )
     await callback_query.message.edit_text(plan_text, reply_markup=buttons)
@@ -239,7 +238,7 @@ async def see_terms(client, callback_query):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📋 See Plans", callback_data="see_plan")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/kingofpatal")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
         ]
     )
     await callback_query.message.edit_text(terms_text, reply_markup=buttons)
