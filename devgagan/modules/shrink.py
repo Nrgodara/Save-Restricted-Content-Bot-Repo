@@ -86,9 +86,11 @@ async def start_command(client, message):
             #msg.photo.file_id,
             image_url,
             caption=(
-                "Hi 👋 Welcome, Wanna intro...?\n\n"
-                "✳️ I can save posts from channels or groups where forwarding is off. I can download videos/audio from YT, INSTA, ... social platforms\n"
-                "✳️ Simply send the post link of a public channel. For private channels, do /login. Send /help to know more."
+                "👋 ʜᴇʟʟᴏ ,
+                "✨ɪ ᴀᴍ ᴀ ʙᴏᴛ ᴅᴇsɪɢɴᴇᴅ ғᴏʀ ʀᴇsᴛʀɪᴄᴛɪᴏɴ ᴘᴜʀᴘᴏsᴇs, ᴄᴀᴘᴀʙʟᴇ ᴏғ sᴀᴠɪɴɢ ᴠɪᴅᴇᴏs, ᴀᴜᴅɪᴏ ғɪʟᴇs, ᴍᴇᴅɪᴀ, ᴀɴᴅ ᴍᴏʀᴇ ғʀᴏᴍ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀɴɴᴇʟs.\n\n"
+                "✳️ I ᴄᴀɴ sᴀᴠᴇ ᴘᴏsᴛs ғʀᴏᴍ ᴄʜᴀɴɴᴇʟs ᴏʀ ɢʀᴏᴜᴘs ᴡʜᴇʀᴇ ғᴏʀᴡᴀʀᴅɪɴɢ ɪs ᴏғғ.\n"
+                "✳️ Sɪᴍᴘʟʏ sᴇɴᴅ ᴛʜᴇ ᴘᴏsᴛ ʟɪɴᴋ ᴏғ ᴀ ᴘᴜʙʟɪᴄ ᴄʜᴀɴɴᴇʟ. Fᴏʀ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀɴɴᴇʟs, ғɪʀsᴛ Lᴏɢɪɴ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ ᴜsɪɴɢ /ʟᴏɢɪɴ ᴄᴏᴍᴍᴀɴᴅ.\n"
+                "✨ Sᴇɴᴅ /sᴇᴛᴛɪɴɢs ᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ."
             ),
             reply_markup=keyboard
         )
