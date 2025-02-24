@@ -147,5 +147,13 @@ async def smart_handler(client, message):
         button = InlineKeyboardMarkup(
             [[InlineKeyboardButton("✅ ᴠᴇʀɪғʏ ✅", url=shortened_url)]],
         )
-        await message.reply("Click the button below to verify your free access token: \n\n> What will you get ? \n1. No time bound upto 3 hours \n2. Batch command limit will be FreeLimit + 20 \n3. All functions unlocked"\n\n [ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Botz/23250), reply_markup=button)
- 
+        #await message.reply("Click the button below to verify your free access token: \n\n> What will you get ? \n1. No time bound upto 3 hours \n2. Batch command limit will be FreeLimit + 20 \n3. All functions unlocked"\n\n [ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Botz/23250), reply_markup=button)
+        await message.reply(
+            "Click the button below to verify your free access token:\n\n"
+            "> What will you get ?\n"
+            "1. No time bound upto 3 hours\n"
+            "2. Batch command limit will be FreeLimit + 20"
+            "3. All functions unlocked\n\n"
+            "[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Botz/23250)", 
+            reply_markup=button
+        )
