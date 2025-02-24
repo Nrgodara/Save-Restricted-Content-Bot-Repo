@@ -212,7 +212,7 @@ async def send_plan_info(client, message):
     photo_url = "https://graph.org/file/81600d79c98257f476807.jpg"
     
     # Brief caption for the photo
-    brief_caption = f"**ʜᴇʏ {user}🥀,Choose Your Premium Plan!** ✨\n\n💬 **Pay to the Scanner above and after successful payment _Send Screenshot_ Plan will be activated once after screenshot received.**"
+    brief_caption = f"**ʜᴇʏ {user}🥀,Choose Your Premium Plan!** ✨\n\n💬 **Buy gift card using PhonePay or Amazon pay and send the details for premium membership.... once Approved your premium will be added**"
     
     # Full plan details as a separate text message
     detailed_text = """
@@ -258,10 +258,11 @@ async def send_plan_info(client, message):
     )
     
     # Sending the photo with the brief caption and button
-    await client.send_photo(
+    await client.send_message(
         chat_id=message.chat.id,
-        photo=photo_url,
-        caption=brief_caption,
+        text=detailed_text,
+        #photo=photo_url,
+        #caption=brief_caption,
         reply_markup=reply_markup
     )
     
@@ -270,6 +271,7 @@ async def send_plan_info(client, message):
 
 @app.on_callback_query(filters.regex("see_plan"))
 async def see_plan(client, callback_query):
+    user = message.from_user.mention
     plan_text = (f"**ʜᴇʏ {user}🥀,Choose Your Premium Plan!** ✨\n\n💬 **Pay to the Scanner above and after successful payment _Send Screenshot_ Plan will be activated once after screenshot received.**")
     
      
