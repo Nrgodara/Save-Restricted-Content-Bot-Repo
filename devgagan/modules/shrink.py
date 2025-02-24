@@ -86,7 +86,7 @@ async def start_command(client, message):
             #msg.photo.file_id,
             image_url,
             caption=(
-                "👋 ʜᴇʟʟᴏ ,
+                "👋 ʜᴇʟʟᴏ,\n"
                 "✨ɪ ᴀᴍ ᴀ ʙᴏᴛ ᴅᴇsɪɢɴᴇᴅ ғᴏʀ ʀᴇsᴛʀɪᴄᴛɪᴏɴ ᴘᴜʀᴘᴏsᴇs, ᴄᴀᴘᴀʙʟᴇ ᴏғ sᴀᴠɪɴɢ ᴠɪᴅᴇᴏs, ᴀᴜᴅɪᴏ ғɪʟᴇs, ᴍᴇᴅɪᴀ, ᴀɴᴅ ᴍᴏʀᴇ ғʀᴏᴍ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀɴɴᴇʟs.\n\n"
                 "✳️ I ᴄᴀɴ sᴀᴠᴇ ᴘᴏsᴛs ғʀᴏᴍ ᴄʜᴀɴɴᴇʟs ᴏʀ ɢʀᴏᴜᴘs ᴡʜᴇʀᴇ ғᴏʀᴡᴀʀᴅɪɴɢ ɪs ᴏғғ.\n"
                 "✳️ Sɪᴍᴘʟʏ sᴇɴᴅ ᴛʜᴇ ᴘᴏsᴛ ʟɪɴᴋ ᴏғ ᴀ ᴘᴜʙʟɪᴄ ᴄʜᴀɴɴᴇʟ. Fᴏʀ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀɴɴᴇʟs, ғɪʀsᴛ Lᴏɢɪɴ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ ᴜsɪɴɢ /ʟᴏɢɪɴ ᴄᴏᴍᴍᴀɴᴅ.\n"
@@ -145,7 +145,7 @@ async def smart_handler(client, message):
  
          
         button = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Verify the token now...", url=shortened_url)]]
+            [[InlineKeyboardButton("✅ ᴠᴇʀɪғʏ ✅", url=shortened_url)]],
         )
-        await message.reply("Click the button below to verify your free access token: \n\n> What will you get ? \n1. No time bound upto 3 hours \n2. Batch command limit will be FreeLimit + 20 \n3. All functions unlocked", reply_markup=button)
+        await message.reply("Click the button below to verify your free access token: \n\n> What will you get ? \n1. No time bound upto 3 hours \n2. Batch command limit will be FreeLimit + 20 \n3. All functions unlocked"\n\n [ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Botz/23250), reply_markup=button)
  
