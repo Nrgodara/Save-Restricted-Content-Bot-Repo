@@ -64,7 +64,8 @@ async def is_user_verified(user_id):
  
  
 @app.on_message(filters.command("start"))
-async def token_handler(client, message):
+async def start_command(client, message):
+#async def token_handler(client, message):
     """Handle the /token command."""
     join = await subscribe(client, message)
     if join == 1:
@@ -82,7 +83,8 @@ async def token_handler(client, message):
         ])
          
         await message.reply_photo(
-            msg.photo.file_id,
+            #msg.photo.file_id,
+            image_url,
             caption=(
                 "Hi 👋 Welcome, Wanna intro...?\n\n"
                 "✳️ I can save posts from channels or groups where forwarding is off. I can download videos/audio from YT, INSTA, ... social platforms\n"
