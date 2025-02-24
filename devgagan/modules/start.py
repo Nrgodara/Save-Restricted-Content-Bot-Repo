@@ -175,7 +175,7 @@ async def terms(client, message):
     terms_text = (
         "> 📜 **Terms and Conditions** 📜\n\n"
         "✨ We are not responsible for user deeds, and we do not promote copyrighted content. If any user engages in such activities, it is solely their responsibility.\n"
-        "\n\n       ~Thank You"
+        "\n\n                   ~Thank You"
     )
      
     buttons = InlineKeyboardMarkup(
@@ -284,11 +284,11 @@ async def see_plan(client, callback_query):
  
 @app.on_callback_query(filters.regex("see_terms"))
 async def see_terms(client, callback_query):
+    user = message.from_user.mention
     terms_text = (
         "> 📜 **Terms and Conditions** 📜\n\n"
         "✨ We are not responsible for user deeds, and we do not promote copyrighted content. If any user engages in such activities, it is solely their responsibility.\n"
-        "✨ Upon purchase, we do not guarantee the uptime, downtime, or the validity of the plan. __Authorization and banning of users are at our discretion; we reserve the right to ban or authorize users at any time.__\n"
-        "✨ Payment to us **__does not guarantee__** authorization for the /batch command. All decisions regarding authorization are made at our discretion and mood.\n"
+        "\n\n                   ~Thank You"
     )
      
     buttons = InlineKeyboardMarkup(
