@@ -158,7 +158,7 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
 
     # Fetch the message using the session (userbot)
     try:
-        dm_message = await userbot.get_messages(user_id_dm, ids=message_id)
+        dm_message = await userbot.get_messages(user_id_dm, message_id)  # Corrected here
         if not dm_message or not dm_message.media:
             await msg.edit_text("❌ No media found in the message.")
             return
@@ -176,7 +176,6 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
-
 
 async def initialize_userbot(user_id): # this ensure the single startup .. even if logged in or not
     data = await db.get_data(user_id)
