@@ -146,7 +146,7 @@ def parse_deep_link(link: str):
     return None, None
 
 
-    async def process_dm_deep_link(userbot, user_id, msg, link, message):
+async def process_dm_deep_link(userbot, user_id, msg, link, message):
     """
     Process a tg://openmessage deep link and download media from DMs using the session (userbot).
     """
@@ -176,6 +176,7 @@ def parse_deep_link(link: str):
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
+
 
 async def initialize_userbot(user_id): # this ensure the single startup .. even if logged in or not
     data = await db.get_data(user_id)
