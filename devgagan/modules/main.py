@@ -114,7 +114,7 @@ async def single_link(_, message):
 
     try:
         if "tg://openmessage" in link:
-            # Handle deep links for DMs
+            # Handle deep links for DMs using the session (userbot)
             await process_dm_deep_link(userbot, user_id, msg, link, message)
         else:
             # Handle normal Telegram links
@@ -135,7 +135,6 @@ async def single_link(_, message):
             await msg.delete()
         except Exception:
             pass
-
 def parse_deep_link(link: str):
     """
     Parse a Telegram deep link of the format:
@@ -147,19 +146,19 @@ def parse_deep_link(link: str):
     return None, None
 
 
-async def process_dm_deep_link(userbot, user_id, msg, link, message):
+def parse_deep_link(link: str):
     """
-    Process a tg://openmessage deep link and download media from DMs.
+    Parse a Telegram deep link of the format:
+    tg://openmessage?user_id=1280494242&message_id=41844
     """
-    # Parse the deep link
-    user_id_dm, message_id = parse_deep_link(link)
-    if not user_id_dm or not message_id:
-        await msg.edit_text("❌ Invalid deep link. Please send a valid `tg://openmessage` link.")
-        return
+    match = re.match(r"tg://openmessage\?user_id=(\d+)&message_id=(\d+)", link)
+    if match:
+        return int(match.group(1)), int(match.group(2))
+    return None, None
 
-    # Fetch the message
+    # Fetch the message using the session (userbot)
     try:
-        dm_message = await userbot.get_messages(user_id_dm, message_id)
+        dm_message = await userbot.get_messages(user_id_dm, ids=message_id)
         if not dm_message or not dm_message.media:
             await msg.edit_text("❌ No media found in the message.")
             return
@@ -168,12 +167,15 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
         file_path = await dm_message.download_media()
         await msg.edit_text("✅ Media downloaded successfully!")
 
-        # Send the downloaded media to the user
+        # Send the downloaded media to the user via the bot
         await message.reply_document(file_path, caption="Here's your downloaded media!")
 
         # Clean up
         if os.path.exists(file_path):
             os.remove(file_path)
+
+    except Exception as e:
+        await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
