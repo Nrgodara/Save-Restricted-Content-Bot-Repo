@@ -162,16 +162,13 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
             await userbot.get_chat(user_id_dm)
         except Exception:
             try:
-            await userbot.send_message(user_id_dm, "Hello! I need to access this chat to process your request.")
-        except Exception:
-            await msg.edit_text(
-                "❌message nahi bheja gaya hai"
-            )
-            return
-            await msg.edit_text(
-                "❌ I am not in a chat with this user. Please add me to the chat and try again."
-            )
-            return
+                await userbot.send_message(user_id_dm, "Hello! I need to access this chat to process your request.")
+            except Exception:
+                await msg.edit_text(
+                    "❌message nahi bheja gaya hai"
+                )
+                return
+            
 
         # Fetch the message
         dm_message = await userbot.get_messages(user_id_dm, message_id)
