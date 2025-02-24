@@ -155,6 +155,6 @@ async def smart_handler(client, message):
             "1. No time bound upto 3 hours\n"
             "2. Batch command limit will be FreeLimit + 20"
             "3. All functions unlocked\n\n"
-            "[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Botz/23250)", 
+            "[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Bots/23250)", 
             reply_markup=button
         )
