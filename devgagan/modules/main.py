@@ -148,7 +148,7 @@ def parse_deep_link(link: str):
 
 async def process_dm_deep_link(userbot, user_id, msg, link, message):
     """
-    Process a tg://openmessage deep link and download media from DMs using the session (userbot).
+    Process a tg://openmessage deep link and download media from DMs.
     """
     # Parse the deep link
     user_id_dm, message_id = parse_deep_link(link)
@@ -156,9 +156,18 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
         await msg.edit_text("❌ Invalid deep link. Please send a valid `tg://openmessage` link.")
         return
 
-    # Fetch the message using the session (userbot)
     try:
-        dm_message = await userbot.get_messages(user_id_dm, message_id)  # Corrected here
+        # Check if the bot is in the same chat as the user
+        try:
+            await userbot.get_chat(user_id_dm)
+        except Exception:
+            await msg.edit_text(
+                "❌ I am not in a chat with this user. Please add me to the chat and try again."
+            )
+            return
+
+        # Fetch the message
+        dm_message = await userbot.get_messages(user_id_dm, message_id)
         if not dm_message or not dm_message.media:
             await msg.edit_text("❌ No media found in the message.")
             return
@@ -167,7 +176,7 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
         file_path = await dm_message.download_media()
         await msg.edit_text("✅ Media downloaded successfully!")
 
-        # Send the downloaded media to the user via the bot
+        # Send the downloaded media to the user
         await message.reply_document(file_path, caption="Here's your downloaded media!")
 
         # Clean up
@@ -176,6 +185,19 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
+    try:
+    # Check if the bot is in the same chat as the user
+    try:
+        await userbot.get_chat(user_id_dm)
+    except Exception:
+        # Attempt to initiate a chat with the user
+        try:
+            await userbot.send_message(user_id_dm, "Hello! I need to access this chat to process your request.")
+        except Exception:
+            await msg.edit_text(
+                "❌ I am not in a chat with this user. Please add me to the chat and try again."
+            )
+            return
 
 async def initialize_userbot(user_id): # this ensure the single startup .. even if logged in or not
     data = await db.get_data(user_id)
