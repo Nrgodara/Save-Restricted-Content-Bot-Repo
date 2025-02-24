@@ -33,28 +33,28 @@ async def set(_, message):
     await app.set_bot_commands([
         BotCommand("start", "🚀 Start the bot"),
         BotCommand("batch", "🫠 Extract in bulk"),
+        BotCommand("cancel", "🚫 Cancel batch process"),
         BotCommand("login", "🔑 Get into the bot"),
         BotCommand("logout", "🚪 Get out of the bot"),
         BotCommand("token", "🎲 Get 3 hours free access"),
-        BotCommand("adl", "👻 Download audio from 30+ sites"),
-        BotCommand("dl", "💀 Download videos from 30+ sites"),
-        BotCommand("freez", "🧊 Remove all expired user"),
+        #BotCommand("adl", "👻 Download audio from 30+ sites"),
+        #BotCommand("dl", "💀 Download videos from 30+ sites"),
         #BotCommand("pay", "₹ Pay now to get subscription"),
        # BotCommand("status", "⟳ Refresh Payment status"),
        # BotCommand("transfer", "💘 Gift premium to others"),
         BotCommand("myplan", "⌛ Get your plan details"),
-        BotCommand("add", "➕ Add user to premium"),
-        BotCommand("rem", "➖ Remove from premium"),
         BotCommand("session", "🧵 Generate Pyrogramv2 session"),
         BotCommand("settings", "⚙️ Personalize things"),
-        BotCommand("stats", "📊 Get stats of the bot"),
         BotCommand("plan", "🗓️ Check our premium plans"),
+       # BotCommand("help", "❓ If you're a noob, still!"),
      #   BotCommand("terms", "🥺 Terms and conditions"),
-        BotCommand("speedtest", "🚅 Speed of server"),
-        BotCommand("lock", "🔒 Protect channel from extraction"),
-        BotCommand("gcast", "⚡ Broadcast message to bot users"),
-        BotCommand("help", "❓ If you're a noob, still!"),
-        BotCommand("cancel", "🚫 Cancel batch process")
+        #BotCommand("speedtest", "🚅 Speed of server"),
+        #BotCommand("lock", "🔒 Protect channel from extraction"),
+        BotCommand("broadcast", "⚡ Broadcast message to bot users (Admin Only)"),
+        BotCommand("add", "➕ Add user to premium (Admin Only)"),
+        BotCommand("rem", "➖ Remove from premium (Admin Only)"),
+        BotCommand("stats", "📊 Get stats of the bot (Admin Only)"),
+        BotCommand("freez", "🧊 Remove all expired user (Admin Only)")
     ])
  
     await message.reply("✅ Commands configured successfully!")
@@ -108,7 +108,7 @@ help_pages = [
         "> 3. CAPTION : To add custom caption\n"
         "> 4. REPLACEWORDS : Can be used for words in deleted set via REMOVE WORDS\n"
         "> 5. RESET : To set the things back to default\n\n"
-        "> You can set CUSTOM THUMBNAIL, PDF WATERMARK, VIDEO WATERMARK, SESSION-based login, etc. from settings\n\n"
+        "> You can set CUSTOM THUMBNAIL, SESSION-based login, etc. from settings\n\n"
     )
 ]
  
@@ -141,7 +141,7 @@ async def send_or_edit_help_page(_, message, page_number):
     )
  
  
-@app.on_message(filters.command("help"))
+@app.on_message(filters.command("hhhelp"))
 async def help(client, message):
     join = await subscribe(client, message)
     if join == 1:
@@ -175,8 +175,7 @@ async def terms(client, message):
     terms_text = (
         "> 📜 **Terms and Conditions** 📜\n\n"
         "✨ We are not responsible for user deeds, and we do not promote copyrighted content. If any user engages in such activities, it is solely their responsibility.\n"
-        "✨ Upon purchase, we do not guarantee the uptime, downtime, or the validity of the plan. __Authorization and banning of users are at our discretion; we reserve the right to ban or authorize users at any time.__\n"
-        "✨ Payment to us **__does not guarantee__** authorization for the /batch command. All decisions regarding authorization are made at our discretion and mood.\n"
+        "\n\n       ~Thank You"
     )
      
     buttons = InlineKeyboardMarkup(
@@ -188,10 +187,10 @@ async def terms(client, message):
     await message.reply_text(terms_text, reply_markup=buttons)
  
  
-@app.on_message(filters.command("plan") & filters.private)
+'''@app.on_message(filters.command("plan") & filters.private)
 async def plan(client, message):
     plan_text = (
-        "> 💰 **Premium Price**:\n\n Starting from $2 or 200 INR accepted via **__Amazon Gift Card__** (terms and conditions apply).\n"
+        "> 💰 **Premium Price**:\n\n Starting from 200 INR accepted via **__Amazon/PhonePay Gift Card__** (terms and conditions apply).\n"
         "📥 **Download Limit**: Users can download up to 100,000 files in a single batch command.\n"
         "🛑 **Batch**: You will get two modes /bulk and /batch.\n"
         "   - Users are advised to wait for the process to automatically cancel before proceeding with any downloads or uploads.\n\n"
@@ -204,9 +203,71 @@ async def plan(client, message):
             [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
         ]
     )
-    await message.reply_text(plan_text, reply_markup=buttons)
+    await message.reply_text(plan_text, reply_markup=buttons)'''
  
- 
+@app.on_message(filters.command("plan"))
+async def send_plan_info(client, message):
+    user_id = message.from_user.id
+    user = message.from_user.mention
+    photo_url = "https://graph.org/file/81600d79c98257f476807.jpg"
+    
+    # Brief caption for the photo
+    brief_caption = f"**ʜᴇʏ {user}🥀,Choose Your Premium Plan!** ✨\n\n💬 **Pay to the Scanner above and after successful payment _Send Screenshot_ Plan will be activated once after screenshot received.**"
+    
+    # Full plan details as a separate text message
+    detailed_text = """
+✨ **Here are the available Plans!** ✨
+
+🔹 **Standard Plan: 100 INR for 5 Days**
+- Access exclusive tools.
+- Priority support.
+- Save up to 50 messages in one click.
+- Early access to new features.
+
+🔹 **Premium Plan: 200 INR for 10 Days**
+- All Standard benefits.
+- Extended premium period.
+- Save up to 150 messages.
+- Special promotions and discounts.
+
+🔹 **Elite Plan: 500 INR for 1 Month**
+- All Premium benefits.
+- Best value for long-term users.
+- Exclusive offers and dedicated support.
+- Save up to 1000 messages.
+
+🔹 **Customized Plan Available**
+- Tailored features on request.
+
+💡 **Special Offer**: Pick the plan that fits you best and enjoy our premium services!
+
+💬 **Need Help?** Click "💬 Contact Now" to contact us.
+"""
+
+    # Button to contact the owner
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("📜 See Terms", callback_data="see_terms")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
+        ]
+    )
+    # Sending the detailed text message
+    await client.send_message(
+        chat_id=message.chat.id,
+        text=detailed_text
+    )
+    
+    # Sending the photo with the brief caption and button
+    await client.send_photo(
+        chat_id=message.chat.id,
+        photo=photo_url,
+        caption=brief_caption,
+        reply_markup=reply_markup
+    )
+    
+
+
+
 @app.on_callback_query(filters.regex("see_plan"))
 async def see_plan(client, callback_query):
     plan_text = (
