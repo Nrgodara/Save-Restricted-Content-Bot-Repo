@@ -185,7 +185,6 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
-    try:
     # Check if the bot is in the same chat as the user
     try:
         await userbot.get_chat(user_id_dm)
