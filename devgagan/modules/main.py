@@ -146,15 +146,15 @@ def parse_deep_link(link: str):
     return None, None
 
 
-def parse_deep_link(link: str):
+    async def process_dm_deep_link(userbot, user_id, msg, link, message):
     """
-    Parse a Telegram deep link of the format:
-    tg://openmessage?user_id=1280494242&message_id=41844
+    Process a tg://openmessage deep link and download media from DMs using the session (userbot).
     """
-    match = re.match(r"tg://openmessage\?user_id=(\d+)&message_id=(\d+)", link)
-    if match:
-        return int(match.group(1)), int(match.group(2))
-    return None, None
+    # Parse the deep link
+    user_id_dm, message_id = parse_deep_link(link)
+    if not user_id_dm or not message_id:
+        await msg.edit_text("❌ Invalid deep link. Please send a valid `tg://openmessage` link.")
+        return
 
     # Fetch the message using the session (userbot)
     try:
@@ -173,9 +173,6 @@ def parse_deep_link(link: str):
         # Clean up
         if os.path.exists(file_path):
             os.remove(file_path)
-
-    except Exception as e:
-        await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
 
     except Exception as e:
         await msg.edit_text(f"❌ Failed to process deep link: {str(e)}")
