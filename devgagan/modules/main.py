@@ -96,7 +96,7 @@ async def single_link(_, message):
 
     # Check freemium limits
     if await chk_user(message, user_id) == 1 and FREEMIUM_LIMIT == 0 and user_id not in OWNER_ID and not await is_user_verified(user_id):
-        await message.reply("Freemium service is currently not available. Upgrade to premium for access.")
+        await message.reply("Service is currently not available for free useres. Upgrade to premium using /plan for access.")
         return
 
     # Check cooldown
@@ -223,6 +223,10 @@ async def is_normal_tg_link(link: str) -> bool:
     
 async def process_special_links(userbot, user_id, msg, link):
     if userbot is None:
+        try:
+            await message.reply("It's a private link please login first to access\n\n press /login")
+        except Exception:
+            pass
         return await msg.edit_text("Try logging in to the bot and try again.")
     if 't.me/+' in link:
         result = await userbot_join(userbot, link)
@@ -252,7 +256,7 @@ async def batch_link(_, message):
 
     freecheck = await chk_user(message, user_id)
     if freecheck == 1 and FREEMIUM_LIMIT == 0 and user_id not in OWNER_ID and not await is_user_verified(user_id):
-        await message.reply("Freemium service is currently not available. Upgrade to premium for access.")
+        await message.reply("Service is currently not available to free users. Upgrade to premium for access.")
         return
 
     max_batch_size = FREEMIUM_LIMIT if freecheck == 1 else PREMIUM_LIMIT
@@ -332,7 +336,7 @@ async def batch_link(_, message):
         # Handle special links with userbot
         for i in range(cs, cs + cl):
             if not userbot:
-                await app.send_message(message.chat.id, "Login in bot first ...")
+                await app.send_message(message.chat.id, "Login in bot first ...\n\n press /login to login")
                 users_loop[user_id] = False
                 return
             if user_id in users_loop and users_loop[user_id]:
