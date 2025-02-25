@@ -27,8 +27,8 @@ async def load_banned_chats():
     BANNED_CHATS = [chat["chat_id"] for chat in chats]
 
 # Load banned users and chats when the bot starts
-app.on_startup(load_banned_users)
-app.on_startup(load_banned_chats)
+#app.on_startup(load_banned_users)
+#app.on_startup(load_banned_chats)
 
 @app.on_message(filters.command('ban') & filters.user(OWNER_ID))
 async def ban_a_user(bot, message):
