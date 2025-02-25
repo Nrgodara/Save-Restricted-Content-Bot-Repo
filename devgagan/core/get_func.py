@@ -82,11 +82,15 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
         upload_method = await fetch_upload_method(sender)  # Fetch the upload method (Pyrogram or Telethon)
         metadata = video_metadata(file)
         width, height, duration = metadata['width'], metadata['height'], metadata['duration']
+        THUMB_PIC = "thumb.jpg"
         try:
             thumb_path = await screenshot(file, duration, sender)
+            if not thumb_path or not os.path.exists(thumb_path):  # Check if file exists
+                thumb_path = THUMB_PIC
         except Exception as e:
             print(f"Error generating thumbnail: {e}")
-
+            thumb_path = THUMB_PIC
+            
         video_formats = {'mp4', 'mkv', 'avi', 'mov'}
         document_formats = {'pdf', 'docx', 'txt', 'epub'}
         image_formats = {'jpg', 'png', 'jpeg'}
