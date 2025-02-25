@@ -207,7 +207,7 @@ async def initialize_userbot(user_id): # this ensure the single startup .. even 
             await userbot.start()
             return userbot
         except Exception:
-            await app.send_message(user_id, "Login Expired re do login")
+            await app.send_message(user_id, "Login Expired or You're not logged\n\n first press /logout then login using /login")
             return None
     else:
         if DEFAULT_SESSION:
