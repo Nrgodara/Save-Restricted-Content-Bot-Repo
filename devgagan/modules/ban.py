@@ -98,7 +98,7 @@ async def ban_reply(bot, message):
     reply_markup=InlineKeyboardMarkup(buttons)
     ban = await db.get_ban_status(message.from_user.id)
     await message.reply(
-        text=f"f'Sorry Dude, You are Banned to use Me. \nBan Reason: {ban["ban_reason"]}'",
+        text=f"Sorry Dude, You are Banned to use Me. \nBan Reason: {ban["ban_reason"]}",
         reply_markup=reply_markup)
 
 @app.on_message(filters.group & disabled_group & filters.incoming)
