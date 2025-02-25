@@ -36,13 +36,13 @@ async def edit_or_reply(msg, **kwargs):
 
 
 @app.on_edited_message(
-    filters.command(["evv", "evr"])
+    filters.command(["eval", "mr"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot
 )
 @app.on_message(
-    filters.command(["evv", "evr"])
+    filters.command(["eval", "mr"])
     & filters.user(OWNER_ID)
     & ~filters.forwarded
     & ~filters.via_bot
