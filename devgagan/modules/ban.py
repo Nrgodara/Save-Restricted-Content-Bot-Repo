@@ -3,7 +3,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import *
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
-from devgagan.core.mongo import users_db
+from devgagan.core.mongo import users_db as db
 import pytz
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from devgagan import app
