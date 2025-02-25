@@ -260,7 +260,7 @@ async def send_plan_info(client, message):
     # Sending the photo with the brief caption and button
     await client.send_message(
         chat_id=message.chat.id,
-        text=detailed_text,
+        text=brief_caption,
         #photo=photo_url,
         #caption=brief_caption,
         reply_markup=reply_markup
@@ -271,8 +271,8 @@ async def send_plan_info(client, message):
 
 @app.on_callback_query(filters.regex("see_plan"))
 async def see_plan(client, callback_query):
-    user = message.from_user.mention
-    plan_text = (f"**ʜᴇʏ {user}🥀,Choose Your Premium Plan!** ✨\n\n💬 **Pay to the Scanner above and after successful payment _Send Screenshot_ Plan will be activated once after screenshot received.**")
+    #user = message.from_user.mention
+    plan_text = (f"**ʜᴇʏ 🥀,Choose Your Premium Plan!** ✨\n\n💬 **Buy gift card using PhonePay or Amazon pay and send the details for premium membership.... once Approved your premium will be added**")
     
      
     buttons = InlineKeyboardMarkup(
@@ -286,7 +286,7 @@ async def see_plan(client, callback_query):
  
 @app.on_callback_query(filters.regex("see_terms"))
 async def see_terms(client, callback_query):
-    user = message.from_user.mention
+    #user = message.from_user.mention
     terms_text = (
         "> 📜 **Terms and Conditions** 📜\n\n"
         "✨ We are not responsible for user deeds, and we do not promote copyrighted content. If any user engages in such activities, it is solely their responsibility.\n"
