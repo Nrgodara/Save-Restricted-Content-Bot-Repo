@@ -157,21 +157,11 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
         return
 
     try:
-        # Check if the bot is in the same chat as the user
-        '''try:
-            await userbot.get_chat(user_id_dm)
-        except Exception:
-            try:
-                await userbot.send_message(user_id_dm, "Hello! I need to access this chat to process your request.")
-            except Exception:
-                await msg.edit_text(
-                    "❌message nahi bheja gaya hai"
-                )
-                return'''
             
 
         # Fetch the message
         dm_message = await userbot.get_messages(user_id_dm, message_id)
+        print(f"here is the messsage {dm_message}")
         if not dm_message or not dm_message.media:
             await msg.edit_text("❌ No media found in the message.")
             return
