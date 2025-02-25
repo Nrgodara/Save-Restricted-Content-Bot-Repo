@@ -50,17 +50,3 @@ async def del_user(user):
   else:
     await db.users.delete_one({"user": user})
     
-
-async def remove_ban(user_id):
-    await users_col.update_one(
-        {'user': user_id}, {'$set': {'ban_status': {"is_banned": False, "ban_reason": ""}}}
-    )
-
-async def ban_user(user_id, ban_reason="No Reason"):
-    await users_col.update_one(
-        {'user': user_id}, {'$set': {'ban_status': {"is_banned": True, "ban_reason": ban_reason}}}
-    )
-
-async def get_ban_status(user_id):
-    user = await users_col.find_one({'user': user_id}, {"_id": 0, "ban_status": 1})
-    return user.get('ban_status', {"is_banned": False, "ban_reason": ""}) if user else {"is_banned": False, "ban_reason": ""}
