@@ -207,8 +207,9 @@ async def screenshot(video, duration, sender):
     if os.path.exists(f'{sender}.jpg'):
         return f'{sender}.jpg'
     time_stamp = hhmmss(int(duration)/2)
-    out = dt.now().isoformat("_", "seconds") + ".jpg"
-    cmd = ["ffmpeg",
+    out = f"{sender}_thumb.jpg"
+    
+    '''cmd = ["ffmpeg",
            "-ss",
            f"{time_stamp}", 
            "-i",
@@ -229,7 +230,20 @@ async def screenshot(video, duration, sender):
     if os.path.isfile(out):
         return out
     else:
-        None  
+        None'''
+
+    try:
+        subprocess.run(f'ffmpeg -i "{video}" -ss 00:01:00 -vframes 1 "{out}"', shell=True)
+        if os.path.isfile(out):
+            return out
+        else:
+            return None
+    except Exception:
+        pass
+        
+
+
+
 last_update_time = time.time()
 async def progress_callback(current, total, progress_message):
     percent = (current / total) * 100
