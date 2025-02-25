@@ -92,7 +92,7 @@ disabled_group=filters.create(disabled_chat)
 
 @app.on_message(filters.private & banned_user & filters.incoming)
 async def ban_reply(bot, message):
-        buttons = [[
+    buttons = [[
         InlineKeyboardButton('Support', url=f'https://t.me/Mr_MAHIji/18/')
     ]]
     reply_markup=InlineKeyboardMarkup(buttons)
