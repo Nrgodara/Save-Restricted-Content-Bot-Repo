@@ -32,18 +32,18 @@ async def set(_, message):
      
     await app.set_bot_commands([
         BotCommand("start", "🚀 Start the bot"),
+        BotCommand("token", "🎲 Get 3 hours free access"),
         BotCommand("batch", "🫠 Extract in bulk"),
         BotCommand("cancel", "🚫 Cancel batch process"),
         BotCommand("login", "🔑 Get into the bot"),
-        BotCommand("logout", "🚪 Get out of the bot"),
-        BotCommand("token", "🎲 Get 3 hours free access"),
+        BotCommand("logout", "🚪 Get out of the bot")
         #BotCommand("adl", "👻 Download audio from 30+ sites"),
         #BotCommand("dl", "💀 Download videos from 30+ sites"),
         #BotCommand("pay", "₹ Pay now to get subscription"),
        # BotCommand("status", "⟳ Refresh Payment status"),
        # BotCommand("transfer", "💘 Gift premium to others"),
         BotCommand("myplan", "⌛ Get your plan details"),
-        BotCommand("session", "🧵 Generate Pyrogramv2 session"),
+       # BotCommand("session", "🧵 Generate Pyrogramv2 session"),
         BotCommand("settings", "⚙️ Personalize things"),
         BotCommand("plan", "🗓️ Check our premium plans"),
        # BotCommand("help", "❓ If you're a noob, still!"),
@@ -181,7 +181,7 @@ async def terms(client, message):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📋 See Plans", callback_data="see_plan")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji/18")],
         ]
     )
     await message.reply_text(terms_text, reply_markup=buttons)
@@ -248,7 +248,7 @@ async def send_plan_info(client, message):
     reply_markup = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📜 See Terms", callback_data="see_terms")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji/18")],
         ]
     )
     # Sending the detailed text message
@@ -260,7 +260,7 @@ async def send_plan_info(client, message):
     # Sending the photo with the brief caption and button
     await client.send_message(
         chat_id=message.chat.id,
-        text=dbrief_caption,
+        text=brief_caption,
         #photo=photo_url,
         #caption=brief_caption,
         reply_markup=reply_markup
@@ -278,7 +278,7 @@ async def see_plan(client, callback_query):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📜 See Terms", callback_data="see_terms")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji/18")],
         ]
     )
     await callback_query.message.edit_text(plan_text, reply_markup=buttons)
@@ -296,7 +296,7 @@ async def see_terms(client, callback_query):
     buttons = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📋 See Plans", callback_data="see_plan")],
-            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji")],
+            [InlineKeyboardButton("💬 Contact Now", url="https://t.me/Mr_Mahiji/18")],
         ]
     )
     await callback_query.message.edit_text(terms_text, reply_markup=buttons)
