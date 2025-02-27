@@ -60,7 +60,7 @@ async def check_interval(user_id, freecheck):
         cooldown_end = interval_set[user_id]
         if now < cooldown_end:
             remaining_time = (cooldown_end - now).seconds
-            return False, f"Please wait {remaining_time} seconds(s) before sending another link. Alternatively, purchase premium for instant access.\n\n> Hey 👋 You can use /token to use the bot free for 3 hours without any time limit."
+            return False, f"Please wait {remaining_time} seconds(s) before sending another link. Alternatively, use /token command.\n\n> Hey 👋 You can use /token to use the bot free for 3 hours without any time limit."
         else:
             del interval_set[user_id]  # Cooldown expired, remove user from interval set
 
@@ -131,10 +131,10 @@ async def single_link(_, message):
         await msg.edit_text(f"Link: `{link}`\n\n**Error:** {str(e)}")
     finally:
         users_loop[user_id] = False
-        try:
-            await msg.delete()
-        except Exception:
-            pass
+        #try:
+         #   await msg.delete()
+       # except Exception:
+           # pass
 def parse_deep_link(link: str):
     """
     Parse a Telegram deep link of the format:
