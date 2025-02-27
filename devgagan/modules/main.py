@@ -75,7 +75,16 @@ async def set_interval(user_id, interval_minutes=45):
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 import re
-
+def parse_deep_link(link: str):
+    """
+    Parse a Telegram deep link of the format:
+    tg://openmessage?user_id=1280494242&message_id=41844
+    """
+    match = re.match(r"tg://openmessage\?user_id=(\d+)&message_id=(\d+)", link)
+    if match:
+        return int(match.group(1)), int(match.group(2))
+    return None, None
+    
 @app.on_message(
     filters.regex(r'https?://(?:www\.)?t\.me/[^\s]+|tg://openmessage\?user_id=\w+&message_id=\d+')
     & filters.private
@@ -114,7 +123,7 @@ async def single_link(_, message):
 
     try:
         if "tg://openmessage" in link:
-            # Handle deep links for DMs using the session (userbot)
+            user_id_dm, message_id = parse_deep_link(link) # Handle deep links for DMs using the session (userbot)
             await process_dm_deep_link(userbot, user_id, msg, link, message)
         else:
             # Handle normal Telegram links
@@ -135,18 +144,10 @@ async def single_link(_, message):
          #   await msg.delete()
        # except Exception:
            # pass
-def parse_deep_link(link: str):
-    """
-    Parse a Telegram deep link of the format:
-    tg://openmessage?user_id=1280494242&message_id=41844
-    """
-    match = re.match(r"tg://openmessage\?user_id=(\d+)&message_id=(\d+)", link)
-    if match:
-        return int(match.group(1)), int(match.group(2))
-    return None, None
 
 
-async def process_dm_deep_link(userbot, user_id, msg, link, message):
+
+'''async def process_dm_deep_link(userbot, user_id, msg, link, message):
     """
     Process a tg://openmessage deep link and download media from DMs.
     """
@@ -190,7 +191,7 @@ async def process_dm_deep_link(userbot, user_id, msg, link, message):
             await msg.edit_text(
                 "❌ I am not in a chat with this user. Please add me to the chat and try again."
             )
-            return
+            return'''
 
 async def initialize_userbot(user_id): # this ensure the single startup .. even if logged in or not
     data = await db.get_data(user_id)
