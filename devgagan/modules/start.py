@@ -36,7 +36,7 @@ async def set(_, message):
         BotCommand("batch", "🫠 Extract in bulk"),
         BotCommand("cancel", "🚫 Cancel batch process"),
         BotCommand("login", "🔑 Get into the bot"),
-        BotCommand("logout", "🚪 Get out of the bot")
+        BotCommand("logout", "🚪 Get out of the bot"),
         #BotCommand("adl", "👻 Download audio from 30+ sites"),
         #BotCommand("dl", "💀 Download videos from 30+ sites"),
         #BotCommand("pay", "₹ Pay now to get subscription"),
