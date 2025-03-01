@@ -39,7 +39,14 @@ async def create_ttl_index():
  
 Param = {}
  
- 
+async def pass_user(message: str, user_id: int) -> int:
+    user: Set[int] = await premium_users()
+    if user_id in user or user_id in OWNER_ID:
+        return 0
+    else:
+        return 1
+
+
 async def generate_random_param(length=8):
     """Generate a random parameter."""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -138,7 +145,7 @@ async def start_command(client, message):
 async def smart_handler(client, message):
     user_id = message.chat.id
      
-    freecheck = await chk_user(message, user_id)
+    freecheck = await pass_user(message, user_id)
     if freecheck != 1:
         await message.reply("You are a premium user no need of token 😉")
         return
