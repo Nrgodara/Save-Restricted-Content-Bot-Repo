@@ -286,7 +286,7 @@ async def see_plan(client, callback_query):
  
 @app.on_callback_query(filters.regex("see_terms"))
 async def see_terms(client, callback_query):
-    user = message.from_user.mention
+    #user = message.from_user.mention
     terms_text = (
         "> 📜 **Terms and Conditions** 📜\n\n"
         "✨ We are not responsible for user deeds, and we do not promote copyrighted content. If any user engages in such activities, it is solely their responsibility.\n"
