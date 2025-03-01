@@ -176,6 +176,7 @@ async def smart_handler(client, message):
             "1. No time Gap BTW links\n"
             "2. **Become Premium user for 3 hours**\n"
             "3. All functions unlocked\n\n"
-            "[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Bots/23250)", 
-            reply_markup=button
+            "👀    **[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Bots/23250)**   👀", 
+            reply_markup=button,
+            disable_web_page_preview=True
         )
