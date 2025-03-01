@@ -153,7 +153,7 @@ async def smart_handler(client, message):
             "Click the button below to verify your free access token:\n\n"
             "> What will you get ?\n"
             "1. No time bound upto 3 hours\n"
-            "2. Batch command limit will be FreeLimit + 20"
+            "2. **Become Premium user for 3 hours"
             "3. All functions unlocked\n\n"
             "[ʜᴏᴡ ᴛᴏ ᴠᴇʀɪғʏ❓](https://t.me/Mahi_Bots/23250)", 
             reply_markup=button
