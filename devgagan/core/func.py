@@ -23,7 +23,6 @@ from pyrogram.errors import FloodWait, InviteHashInvalid, InviteHashExpired, Use
 from datetime import datetime as dt
 import asyncio, subprocess, re, os, time
 from pyrogram import utils as pyroutils
-from devgagan.modules.shrink import is_user_verified
 pyroutils.MIN_CHAT_ID = -999999999999
 pyroutils.MIN_CHANNEL_ID = -100999999999999
 
