@@ -48,7 +48,7 @@ async def generate_random_param(length=8):
  
 async def get_shortened_url(deep_link):
     # Randomly select a service
-    index = random.randint(0, len(WEBSITE_URLS) - 1
+    index = random.randint(0, len(WEBSITE_URL) - 1
     selected_url = WEBSITE_URL[index]
     selected_api = AD_API[index]
 
