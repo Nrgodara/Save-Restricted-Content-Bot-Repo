@@ -15,7 +15,9 @@
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import asyncio
 import random
+import logging
 import requests
 import string
 import aiohttp
@@ -45,15 +47,28 @@ async def generate_random_param(length=8):
  
  
 async def get_shortened_url(deep_link):
-    api_url = f"https://{WEBSITE_URL}/api?api={AD_API}&url={deep_link}"
- 
-     
-    async with aiohttp.ClientSession() as session:
-        async with session.get(api_url) as response:
-            if response.status == 200:
-                data = await response.json()   
-                if data.get("status") == "success":
-                    return data.get("shortenedUrl")
+    # Randomly select a service
+    index = random.randint(0, len(WEBSITE_URLS) - 1
+    selected_url = WEBSITE_URLS[index]
+    selected_api = AD_APIS[index]
+
+    # Construct the API URL
+    api_url = f"https://{selected_url}/api?api={selected_api}&url={deep_link}"
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_url) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if data.get("status") == "success":
+                        return data.get("shortenedUrl")
+                else:
+                    logging.error(f"Failed to shorten URL. Status: {response.status}, Response: {await response.text()}")
+    except aiohttp.ClientError as e:
+        logging.error(f"An error occurred while making the request: {e}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+
     return None
  
  
