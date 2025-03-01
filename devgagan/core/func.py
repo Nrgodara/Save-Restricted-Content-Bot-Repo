@@ -29,7 +29,7 @@ pyroutils.MIN_CHANNEL_ID = -100999999999999
 
 async def chk_user(message: str, user_id: int) -> int:
     user: Set[int] = await premium_users()
-    if user_id in user or user_id in OWNER_ID or await is_user_verified(user_id):
+    if user_id in user or user_id in OWNER_ID:
         return 0
     else:
         return 1
