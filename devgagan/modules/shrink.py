@@ -15,7 +15,6 @@
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import asyncio
 import random
 import logging
 import requests
