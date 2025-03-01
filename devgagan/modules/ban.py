@@ -32,6 +32,8 @@ async def load_banned_chats():
 
 @app.on_message(filters.command('ban') & filters.user(OWNER_ID))
 async def ban_a_user(bot, message):
+    await load_banned_users()
+    await load_banned_chats()
     if len(message.command) == 1:
         return await message.reply('Give me a user id / username')
     r = message.text.split(None)
@@ -63,6 +65,8 @@ async def ban_a_user(bot, message):
 
 @app.on_message(filters.command('unban') & filters.user(OWNER_ID))
 async def unban_a_user(bot, message):
+    await load_banned_users()
+    await load_banned_chats()
     if len(message.command) == 1:
         return await message.reply('Give me a user id / username')
     r = message.text.split(None)
