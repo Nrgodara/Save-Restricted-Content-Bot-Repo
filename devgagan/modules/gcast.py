@@ -75,6 +75,7 @@ async def announced(_, message):
       to_send=message.reply_to_message.id
     if not message.reply_to_message:
       return await message.reply_text("Reply To Some Post To Broadcast")
+    exmsg = await message.reply_text("sᴛᴀʀᴛᴇᴅ ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ!")
     users = await get_users() or []
     print(users)
     failed_user = 0
@@ -86,7 +87,7 @@ async def announced(_, message):
       except Exception as e:
         failed_user += 1
           
-    if failed_users == 0:
+    if failed_user == 0:
         await exmsg.edit_text(
             f"**sᴜᴄᴄᴇssғᴜʟʟʏ ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ✅**\n\n**sᴇɴᴛ ᴍᴇssᴀɢᴇ ᴛᴏ** `{done_users}` **ᴜsᴇʀs**",
         )
