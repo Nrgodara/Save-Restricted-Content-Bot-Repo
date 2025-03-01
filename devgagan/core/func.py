@@ -23,11 +23,13 @@ from pyrogram.errors import FloodWait, InviteHashInvalid, InviteHashExpired, Use
 from datetime import datetime as dt
 import asyncio, subprocess, re, os, time
 from pyrogram import utils as pyroutils
+from devgagan.modules.shrink import is_user_verified
 pyroutils.MIN_CHAT_ID = -999999999999
 pyroutils.MIN_CHANNEL_ID = -100999999999999
-async def chk_user(message, user_id):
-    user = await premium_users()
-    if user_id in user or user_id in OWNER_ID:
+
+async def chk_user(message: str, user_id: int) -> int:
+    user: Set[int] = await premium_users()
+    if user_id in user or user_id in OWNER_ID or await is_user_verified(user_id):
         return 0
     else:
         return 1
